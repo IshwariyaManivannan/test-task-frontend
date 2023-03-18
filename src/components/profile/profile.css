@@ -1,0 +1,33 @@
+.main {
+    display: flex;
+  flex-direction: row;
+    width: 100%;
+    min-width: 1000px;
+}
+
+.left {
+    width: 50%;
+    min-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.leftMain{
+    min-width: 400px;
+}
+
+.right {
+    width: 50%;
+    min-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rightMain{
+    min-width: 400px;
+}
+.inputs{
+    display: grid;
+}
