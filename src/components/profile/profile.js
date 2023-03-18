@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import './profile.css'
 
 const Profile = () => {
@@ -15,6 +16,10 @@ const Profile = () => {
     const [vDob, vSetDob] = useState("");
     const [vMobile, vSetMobile] = useState("");
 
+    const navigate = useNavigate();
+    function logout() {
+        navigate('/login')
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -27,7 +32,13 @@ const Profile = () => {
     return (
 
         <div className="totalContainer">
-            <div className="header">Profile Page</div>
+            <div className="header">
+                <div>Profile Page</div>
+                <div>
+                    <button onClick={logout}>logout</button>
+                </div>
+            </div>
+
             <div className="main">
                 <div className="left">
                     <div className="leftMain">
