@@ -1,61 +1,74 @@
 import React from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import './login.css'
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
+
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
+
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    let errors = {};
+
     // Email validation
-    if (!email.includes("@")) {
-      setEmailError("Please enter a valid email address.");
-    } else {
-      setEmailError("");
+    if (!email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Email is invalid';
     }
 
     // Password validation
-    if (password.length < 8) {
-      setPasswordError("Please enter a password with at least 8 characters.");
-    } else {
-      setPasswordError("");
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
     }
 
-    // Submit form if there are no errors
-    if (!emailError && !passwordError) {
-      console.log("Login successful!");
-      // Replace this with your own code for handling login
+
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
     }
+
+
+
+    console.log("Login successful!");
+    navigate('/profile')
+
+
   };
 
   return (
     <div className="loginMainWrapper">
       <div className='loginSubWrapper'>
-        
+
         <form className='loginForm' onSubmit={handleSubmit}>
-        <div className='loginHead'>Login</div>
+          <div className='loginHead'>Login</div>
           <div className='email'>
             <label htmlFor="email">Email:</label>
             <input
-             type="text"
+              type="text"
               id="email"
               value={email}
               onChange={handleEmailChange}
             />
             <div className="error">
-            {emailError && <div >{emailError}</div>}
+              {errors.email && <div >{errors.email}</div>}
             </div>
           </div>
           <div>
@@ -67,7 +80,7 @@ const Login = () => {
               onChange={handlePasswordChange}
             />
             <div className="error">
-            {passwordError && <div >{passwordError}</div>}
+              {errors.password && <div >{errors.password}</div>}
             </div>
           </div>
           <button type="submit">Login</button>

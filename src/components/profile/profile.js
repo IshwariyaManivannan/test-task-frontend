@@ -9,82 +9,101 @@ const Profile = () => {
     const [dob, setDob] = useState("26/03/2000");
     const [mobile, setMobile] = useState("9095243449");
 
-    function handleSubmit() {
+    const [vUser, vSetUser] = useState("");
+    const [vAge, vSetAge] = useState("");
+    const [vGender, vSetGender] = useState("");
+    const [vDob, vSetDob] = useState("");
+    const [vMobile, vSetMobile] = useState("");
 
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        vSetUser(user);
+        vSetAge(age);
+        vSetGender(gender);
+        vSetDob(dob);
+        vSetMobile(mobile);
     }
     return (
-        <div className="main">
-            <div className="left">
-                <div className="leftMain">
-                    <div className="inputs">
-                        <div>Name:</div>
-                        <div>{user}</div>
-                    </div>
-                    <div className="inputs">
-                        <div>
-                            Age:
-                        </div>
-                        <div>
-                            {age}
-                        </div>
-                    </div>
-                    <div className="inputs">
-                        <div>
-                            Gender:
-                        </div>
-                        <div>
-                            {gender}
-                        </div>
-                    </div>
-                    <div className="inputs">
-                        <div>
-                            Date Of Birth:
-                        </div>
-                        <div>
-                            {dob}
+
+        <div className="totalContainer">
+            <div className="header">Profile Page</div>
+            <div className="main">
+                <div className="left">
+                    <div className="leftMain">
+                        <h1>Additional Details</h1>
+                        <div className="content">
+                            <div className="inputs">
+                                <div className="innerInput">Name:</div>
+                                <div className="innerInputs">{vUser}</div>
+                            </div>
+                            <div className="inputs">
+                                <div className="innerInput">
+                                    Age:
+                                </div>
+                                <div className="innerInputs">
+                                    {vAge}
+                                </div>
+                            </div>
+                            <div className="inputs">
+                                <div className="innerInput">
+                                    Gender:
+                                </div>
+                                <div className="innerInputs">
+                                    {vGender}
+                                </div>
+                            </div>
+                            <div className="inputs">
+                                <div className="innerInput">
+                                    Date Of Birth:
+                                </div>
+                                <div className="innerInputs">
+                                    {vDob}
+                                </div>
+
+                            </div>
+                            <div className="inputs">
+                                <div className="innerInput">
+                                    Mobile:
+                                </div>
+                                <div className="innerInputs">
+                                    {vMobile}
+                                </div>
+                            </div>
                         </div>
 
-                    </div>
-                    <div className="inputs">
-                        <div>
-                            Mobile:
-                        </div>
-                        <div>
-                            {mobile}
-                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="right">
+                <div className="right">
 
-                <div className="rightMain">
-                    <div className='profileForm'>
-                        <h1> Update Form</h1>
-                        <form onSubmit={handleSubmit}>
-                            <div className='age'>
-                                <label>Age:</label>
-                                <input type="text" value={age} onChange={(e) => setAge(e.target.value)} />
-                            </div>
-                            <div className='gender'>
-                                <label>Gender:</label>
-                                <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} />
-                            </div>
-                            <div className='dob'>
-                                <label>Date of Birth:</label>
-                                <input type="text" value={dob} onChange={(e) => setDob(e.target.value)} />
-                            </div>
-                            <div className='mobile'>
-                                <label>Mobile:</label>
-                                <input type="text" value={mobile} onChange={(e) => setMobile(e.target.value)} />
-                            </div>
-                            <button type="submit">Update</button>
-                        </form>
+                    <div className="rightMain">
+                        <div className='profileForm'>
+                            <h1> Update Form</h1>
+                            <form onSubmit={handleSubmit}>
+                                <div className='age'>
+                                    <label>Age:</label>
+                                    <input type="text" value={age} onChange={(e) => setAge(e.target.value)} />
+                                </div>
+                                <div className='gender'>
+                                    <label>Gender:</label>
+                                    <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} />
+                                </div>
+                                <div className='dob'>
+                                    <label>Date of Birth:</label>
+                                    <input type="text" value={dob} onChange={(e) => setDob(e.target.value)} />
+                                </div>
+                                <div className='mobile'>
+                                    <label>Mobile:</label>
+                                    <input type="text" value={mobile} onChange={(e) => setMobile(e.target.value)} />
+                                </div>
+                                <button type="submit">Update</button>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
-
-
         </div>
 
     )
