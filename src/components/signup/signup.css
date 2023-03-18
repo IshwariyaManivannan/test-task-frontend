@@ -1,0 +1,33 @@
+.signUpWrapper {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  /* Add green color to this property */
+  padding: 20px;
+  width: 500px;
+  margin: 0 auto;
+  min-height :600px;
+}
+
+/* Add this class to the button to style it with the green theme */
+button.green {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button.green:hover {
+  background-color: #3e8e41;
+}
+
+.signUpHead,
+.submitButton,
+.goToLogin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
