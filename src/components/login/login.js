@@ -57,9 +57,11 @@ const Login = ({ isLogged }) => {
           position: toast.POSITION.TOP_RIGHT
         });
         const userId = response.data.data[0].id;
+        const userName =response.data.data[0].username;
 
         localStorage.setItem("userId", userId)
-        auth.Login();
+        auth.islogin();
+        auth.userNaming(userName)
 
         setTimeout(() => {
           navigate(`/profile/${userId}`, { replace: true });

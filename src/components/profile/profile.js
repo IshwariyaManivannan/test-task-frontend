@@ -1,12 +1,18 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate,useParams } from "react-router-dom";
+import  { useAuth } from "../../context/auth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 import './profile.css'
 
 
 const Profile = ({isLogged}) => {
-    const id = useParams("userId")
-    const [user, setUser] = useState("yuvaraj");
+    let id = useParams("userId")
+    id = id.userId
+   
+    
     const [age, setAge] = useState("23");
     const [gender, setGender] = useState("male");
     const [dob, setDob] = useState("26/03/2000");
@@ -19,6 +25,7 @@ const Profile = ({isLogged}) => {
     const [vMobile, vSetMobile] = useState("");
     const [userId , setUserId] =useState(id)
   
+    const auth = useAuth();
     const navigate = useNavigate();
     function logout() {
         localStorage.clear()
@@ -26,14 +33,107 @@ const Profile = ({isLogged}) => {
         navigate('/login')
     }
 
+    const  add = async() =>{
+        try {
+            const response = await axios.post(`http://localhost:8000/insert/${id}`,{age,gender,dob,mobile});
+           
+         
+            if(response.data.status === 200)
+            { 
+            
+                toast.success('succesfully updated', {
+                    position: toast.POSITION.TOP_RIGHT
+                  });
+                  auth.edit();
+
+            }else{
+
+                toast.success('something went wrong', {
+                    position: toast.POSITION.TOP_RIGHT
+                  });
+                
+            }
+            
+          } catch (error) {
+            console.error('Error:', error);
+          } 
+    }
+
+
+    const update =async() =>{
+        try {
+            const response = await axios.post(`http://localhost:8000/update/${id}`,{age,gender,dob,mobile});
+           
+         
+            if(response.data.status === 200)
+            { 
+            
+                toast.success('succesfully updated', {
+                    position: toast.POSITION.TOP_RIGHT
+                  });
+
+            }else{
+
+                toast.success('something went wrong', {
+                    position: toast.POSITION.TOP_RIGHT
+                  });
+                
+            }
+            
+          } catch (error) {
+            console.error('Error:', error);
+          } 
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
-        vSetUser(user);
         vSetAge(age);
         vSetGender(gender);
         vSetDob(dob);
         vSetMobile(mobile);
+        vSetUser(auth.userName);
+        if(auth.profileEdit)
+        {
+            update();
+        }else{
+          add();
+        }
+
     }
+const fetchData = async() =>{
+    
+        // Submit form data
+        try {
+            const response = await axios.get(`http://localhost:8000/get/${id}`);
+            console.log('Response:', response.data);
+         
+            if(response.data.status === 200)
+            { 
+                vSetAge(response.data.data[0].age)
+                vSetGender(response.data.data[0].gender);
+                vSetDob(response.data.data[0].dob)
+                vSetMobile(response.data.data[0].mobile)
+                vSetUser(auth.userName);
+                auth.edit();
+
+            }else{
+
+                auth.noEdit();
+                
+            }
+            
+          } catch (error) {
+            console.error('Error:', error);
+          }
+          console.log(22);
+}
+
+    useEffect(() => {
+        fetchData();
+      
+      }, []);
+    
+
     return (
 
         <div className="totalContainer">
@@ -45,7 +145,7 @@ const Profile = ({isLogged}) => {
             </div>
 
             <div className="main">
-                <div className="left">
+                {auth.profileEdit &&<div className="left">
                     <div className="leftMain">
                         <h1>Additional Details</h1>
                         <div className="content">
@@ -89,7 +189,7 @@ const Profile = ({isLogged}) => {
                         </div>
 
                     </div>
-                </div>
+                </div>}
                 <div className="right">
 
                     <div className="rightMain">
@@ -112,7 +212,7 @@ const Profile = ({isLogged}) => {
                                     <label>Mobile:</label>
                                     <input type="text" value={mobile} onChange={(e) => setMobile(e.target.value)} />
                                 </div>
-                                <button type="submit">Update</button>
+                                <button type="submit">{auth.profileEdit?"Update":"Add"}</button>
                             </form>
                         </div>
                     </div>
@@ -120,6 +220,7 @@ const Profile = ({isLogged}) => {
                 </div>
 
             </div>
+            <ToastContainer/>
         </div>
 
     )
