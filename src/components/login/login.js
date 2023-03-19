@@ -1,16 +1,19 @@
 import React from 'react'
 import { useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import { useAuth } from '../../context/auth';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 import './login.css'
-const Login = () => {
+const Login = ({ isLogged }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
-
+  const auth = useAuth();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -22,7 +25,7 @@ const Login = () => {
   };
 
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     let errors = {};
@@ -49,15 +52,29 @@ const Login = () => {
 
     try {
       const response = await axios.post('http://localhost:8000/login', { email, password });
-      console.log('Response:', response.data);
-      navigate('/login')
-      
+      if (response.data.status === 200) {
+        toast.success('You have successfully login!', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        const userId = response.data.data[0].id;
+
+        localStorage.setItem("userId", userId)
+        auth.Login();
+
+        setTimeout(() => {
+          navigate(`/profile/${userId}`, { replace: true });
+        }, 2000);
+      } else {
+        toast.success('invalid user please user email or password', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      }
+
     } catch (error) {
       console.error('Error:', error);
     }
 
-    console.log("Login successful!");
-    navigate('/profile')
+
 
 
   };
@@ -98,6 +115,7 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
 
   )

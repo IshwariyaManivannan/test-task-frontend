@@ -1,9 +1,11 @@
 
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import './profile.css'
 
-const Profile = () => {
+
+const Profile = ({isLogged}) => {
+    const id = useParams("userId")
     const [user, setUser] = useState("yuvaraj");
     const [age, setAge] = useState("23");
     const [gender, setGender] = useState("male");
@@ -15,9 +17,12 @@ const Profile = () => {
     const [vGender, vSetGender] = useState("");
     const [vDob, vSetDob] = useState("");
     const [vMobile, vSetMobile] = useState("");
-
+    const [userId , setUserId] =useState(id)
+  
     const navigate = useNavigate();
     function logout() {
+        localStorage.clear()
+        isLogged = false;
         navigate('/login')
     }
 

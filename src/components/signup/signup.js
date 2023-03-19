@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 import './signup.css'
@@ -11,6 +13,7 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
+
     const navigate = useNavigate();
 
     const handleSubmit = async(e) =>  {
@@ -46,7 +49,19 @@ const SignUp = () => {
         try {
             const response = await axios.post('http://localhost:8000/signup', { username, email, password });
             console.log('Response:', response.data);
-            navigate('/login')
+         
+            if(response.data.status === 200)
+            {  toast.success('You have successfully signup!', {
+                position: toast.POSITION.TOP_RIGHT
+              });
+               setTimeout(() => {
+                navigate('/login')
+               }, 2000);
+            }else{
+                toast.success('signup not sucessfull something went wrong', {
+                    position: toast.POSITION.TOP_RIGHT
+                  });
+            }
             
           } catch (error) {
             console.error('Error:', error);
@@ -110,6 +125,7 @@ const SignUp = () => {
                 </div>
                
             </div>
+            <ToastContainer />
         </div>
 
 
