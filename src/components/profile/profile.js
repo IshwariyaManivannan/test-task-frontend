@@ -13,10 +13,10 @@ const Profile = ({isLogged}) => {
     id = id.userId
    
     
-    const [age, setAge] = useState("23");
-    const [gender, setGender] = useState("male");
-    const [dob, setDob] = useState("26/03/2000");
-    const [mobile, setMobile] = useState("9095243449");
+    const [age, setAge] = useState("");
+    const [gender, setGender] = useState("");
+    const [dob, setDob] = useState("");
+    const [mobile, setMobile] = useState("");
 
     const [vUser, vSetUser] = useState("");
     const [vAge, vSetAge] = useState("");
