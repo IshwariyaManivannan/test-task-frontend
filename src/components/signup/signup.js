@@ -1,22 +1,25 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
+import axios from 'axios';
+
 import './signup.css'
 const SignUp = () => {
 
-    const [name, setName] = useState('');
+    const [username, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) =>  {
         e.preventDefault();
 
         // Validation
         let errors = {};
-        if (!name.trim()) {
-            errors.name = 'Name is required';
+        if (!username.trim()) {
+            errors.username = 'Name is required';
         }
         if (!email.trim()) {
             errors.email = 'Email is required';
@@ -40,7 +43,15 @@ const SignUp = () => {
         }
 
         // Submit form data
-        console.log({ name, email, password });
+        try {
+            const response = await axios.post('http://localhost:8000/signup', { username, email, password });
+            console.log('Response:', response.data);
+            navigate('/login')
+            
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        // console.log({ name, email, password });
     };
     return (
 
@@ -53,10 +64,10 @@ const SignUp = () => {
                         <input
                             type="text"
                             id="name"
-                            value={name}
+                            value={username}
                             onChange={(e) => setName(e.target.value)}
                         />
-                        {errors.name && <span className='error'>{errors.name}</span>}
+                        {errors.username && <span className='error'>{errors.username}</span>}
                     </div>
                     <div className='email'>
                         <label htmlFor="email">Email:</label>

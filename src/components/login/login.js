@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import './login.css'
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +22,7 @@ const Login = () => {
   };
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
 
     let errors = {};
@@ -45,7 +47,14 @@ const Login = () => {
       return;
     }
 
-
+    try {
+      const response = await axios.post('http://localhost:8000/login', { email, password });
+      console.log('Response:', response.data);
+      navigate('/login')
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
 
     console.log("Login successful!");
     navigate('/profile')
