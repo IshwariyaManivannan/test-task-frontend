@@ -17,7 +17,6 @@ function App() {
       <Route path='profile/:userId' element ={<Profile/>} />
     </Routes>
     </AuthProvider>
- 
    </div>
   );
 }
