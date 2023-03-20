@@ -1,18 +1,18 @@
 
 import React, { useState, useEffect } from "react";
-import { useNavigate,useParams } from "react-router-dom";
-import  { useAuth } from "../../context/auth";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../context/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import './profile.css'
 
 
-const Profile = ({isLogged}) => {
+const Profile = ({ isLogged }) => {
     let id = useParams("userId")
     id = id.userId
-   
-    
+
+
     const [age, setAge] = useState("");
     const [gender, setGender] = useState("");
     const [dob, setDob] = useState("");
@@ -23,66 +23,64 @@ const Profile = ({isLogged}) => {
     const [vGender, vSetGender] = useState("");
     const [vDob, vSetDob] = useState("");
     const [vMobile, vSetMobile] = useState("");
-    const [userId , setUserId] =useState(id)
-  
+    const [userId, setUserId] = useState(id)
+
     const auth = useAuth();
     const navigate = useNavigate();
     function logout() {
         localStorage.clear()
-        isLogged = false;
+        auth.islogout();
         navigate('/login')
     }
 
-    const  add = async() =>{
+    const add = async () => {
         try {
-            const response = await axios.post(`http://localhost:8000/insert/${id}`,{age,gender,dob,mobile});
-           
-         
-            if(response.data.status === 200)
-            { 
-            
+            const response = await axios.post(`http://localhost:8000/insert/${id}`, { age, gender, dob, mobile });
+
+
+            if (response.data.status === 200) {
+
                 toast.success('succesfully updated', {
                     position: toast.POSITION.TOP_RIGHT
-                  });
-                  auth.edit();
+                });
+                auth.edit();
 
-            }else{
+            } else {
 
                 toast.success('something went wrong', {
                     position: toast.POSITION.TOP_RIGHT
-                  });
-                
+                });
+
             }
-            
-          } catch (error) {
+
+        } catch (error) {
             console.error('Error:', error);
-          } 
+        }
     }
 
 
-    const update =async() =>{
+    const update = async () => {
         try {
-            const response = await axios.post(`http://localhost:8000/update/${id}`,{age,gender,dob,mobile});
-           
-         
-            if(response.data.status === 200)
-            { 
-            
+            const response = await axios.post(`http://localhost:8000/update/${id}`, { age, gender, dob, mobile });
+
+
+            if (response.data.status === 200) {
+
                 toast.success('succesfully updated', {
                     position: toast.POSITION.TOP_RIGHT
-                  });
+                });
 
-            }else{
+            } else {
 
                 toast.success('something went wrong', {
                     position: toast.POSITION.TOP_RIGHT
-                  });
-                
+                });
+
             }
-            
-          } catch (error) {
+
+        } catch (error) {
             console.error('Error:', error);
-          } 
+        }
     }
 
     function handleSubmit(e) {
@@ -92,23 +90,21 @@ const Profile = ({isLogged}) => {
         vSetDob(dob);
         vSetMobile(mobile);
         vSetUser(auth.userName);
-        if(auth.profileEdit)
-        {
+        if (auth.profileEdit) {
             update();
-        }else{
-          add();
+        } else {
+            add();
         }
 
     }
-const fetchData = async() =>{
-    
+    const fetchData = async () => {
+
         // Submit form data
         try {
             const response = await axios.get(`http://localhost:8000/get/${id}`);
-            console.log('Response:', response.data);
-         
-            if(response.data.status === 200)
-            { 
+
+
+            if (response.data.status === 200) {
                 vSetAge(response.data.data[0].age)
                 vSetGender(response.data.data[0].gender);
                 vSetDob(response.data.data[0].dob)
@@ -116,23 +112,23 @@ const fetchData = async() =>{
                 vSetUser(auth.userName);
                 auth.edit();
 
-            }else{
+            } else {
 
                 auth.noEdit();
-                
+
             }
-            
-          } catch (error) {
+
+        } catch (error) {
             console.error('Error:', error);
-          }
-          console.log(22);
-}
+        }
+
+    }
 
     useEffect(() => {
         fetchData();
-      
-      }, []);
-    
+
+    }, []);
+
 
     return (
 
@@ -145,7 +141,7 @@ const fetchData = async() =>{
             </div>
 
             <div className="main">
-                {auth.profileEdit &&<div className="left">
+                {auth.profileEdit && <div className="left">
                     <div className="leftMain">
                         <h1>Additional Details</h1>
                         <div className="content">
@@ -212,7 +208,7 @@ const fetchData = async() =>{
                                     <label>Mobile:</label>
                                     <input type="text" value={mobile} onChange={(e) => setMobile(e.target.value)} />
                                 </div>
-                                <button type="submit">{auth.profileEdit?"Update":"Add"}</button>
+                                <button type="submit">{auth.profileEdit ? "Update" : "Add"}</button>
                             </form>
                         </div>
                     </div>
@@ -220,7 +216,7 @@ const fetchData = async() =>{
                 </div>
 
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </div>
 
     )

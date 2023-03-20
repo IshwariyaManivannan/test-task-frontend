@@ -57,7 +57,7 @@ const Login = ({ isLogged }) => {
           position: toast.POSITION.TOP_RIGHT
         });
         const userId = response.data.data[0].id;
-        const userName =response.data.data[0].username;
+        const userName = response.data.data[0].username;
 
         localStorage.setItem("userId", userId)
         auth.islogin();

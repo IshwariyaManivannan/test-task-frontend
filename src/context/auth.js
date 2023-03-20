@@ -19,13 +19,13 @@ export const AuthProvider = ({ children }) => {
     const noEdit = () => {
         setProfileEdit(false);
     }
-   
-    const userNaming =( user)=>{
+
+    const userNaming = (user) => {
         setUserName(user)
     }
 
     return (
-        <authContext.Provider value={{ user, profileEdit, islogin, islogout, edit, noEdit ,userNaming,userName}}>
+        <authContext.Provider value={{ user, profileEdit, islogin, islogout, edit, noEdit, userNaming, userName }}>
             {children}
         </authContext.Provider>
     )

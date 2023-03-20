@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link , useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -16,7 +16,7 @@ const SignUp = () => {
 
     const navigate = useNavigate();
 
-    const handleSubmit = async(e) =>  {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Validation
@@ -48,31 +48,31 @@ const SignUp = () => {
         // Submit form data
         try {
             const response = await axios.post('http://localhost:8000/signup', { username, email, password });
-            console.log('Response:', response.data);
-         
-            if(response.data.status === 200)
-            {  toast.success('You have successfully signup!', {
-                position: toast.POSITION.TOP_RIGHT
-              });
-               setTimeout(() => {
-                navigate('/login')
-               }, 2000);
-            }else{
+
+
+            if (response.data.status === 200) {
+                toast.success('You have successfully signup!', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                setTimeout(() => {
+                    navigate('/login')
+                }, 2000);
+            } else {
                 toast.success('signup not sucessfull something went wrong', {
                     position: toast.POSITION.TOP_RIGHT
-                  });
+                });
             }
-            
-          } catch (error) {
+
+        } catch (error) {
             console.error('Error:', error);
-          }
-        // console.log({ name, email, password });
+        }
+
     };
     return (
 
         <div className='signUpWrapper'>
             <div>
-               <div className='signUpHead'> <h2>Sign Up</h2></div>
+                <div className='signUpHead'> <h2>Sign Up</h2></div>
                 <form className='signUpForm' onSubmit={handleSubmit}>
                     <div className='name'>
                         <label htmlFor="name">Name:</label>
@@ -115,15 +115,15 @@ const SignUp = () => {
                         {errors.confirmPassword && <span className='error'>{errors.confirmPassword}</span>}
                     </div>
                     <div className='submitButton'>
-                    <button type="submit">Sign Up</button>
+                        <button type="submit">Sign Up</button>
                     </div>
                 </form>
                 <div className='goToLogin'>
-                <p>
-                    Already have an account? <Link to={'/login'}>Log In</Link>
-                </p>
+                    <p>
+                        Already have an account? <Link to={'/login'}>Log In</Link>
+                    </p>
                 </div>
-               
+
             </div>
             <ToastContainer />
         </div>
